@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     private Vector2 movementInputValue;
     private bool attackInputValue;
+
     private void OnEnable()
     {
         if (playerInput == null)

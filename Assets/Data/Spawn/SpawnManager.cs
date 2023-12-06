@@ -56,7 +56,8 @@ public class ProjectilePool
 {
     public ProjectileController prefab;
     public List<ProjectileController> inactiveObjs;
-    public List<ProjectileController> activeObjs;
+    public List<ProjectileController>activeObjs;
+    
     public ProjectileController Spawn(Vector3 position, Transform parent)
     {
         if (inactiveObjs.Count == 0)
@@ -98,8 +99,9 @@ public class ProjectilePool
 
         }
     }
-
+    
 }
+
 [System.Serializable]
 public class ParticalFXPool
 {
@@ -184,8 +186,17 @@ public class SpawnManager : MonoBehaviour
 
 
     private bool isSpawningEnemies;
+    private int enemyIndex;
     // Start is called before the first frame update
 
+    private void OnEnable()
+    {
+        GameController.Instance.onPrefabChanged += OnPrefabChanged;
+    }
+    private void OnPrefabChanged(int index)
+    {
+        enemyIndex = index;
+    }
     private void Start()
     {
     }
@@ -257,6 +268,8 @@ public class SpawnManager : MonoBehaviour
 
     public ProjectileController SpawnPlayerProjectile(Vector3 position)
     {
+
+        Debug.Log("Proj  " + enemyIndex);
         ProjectileController obj = playerProjPool.Spawn(position, transform);
         obj.SetFromPlayer(true);
         return obj;

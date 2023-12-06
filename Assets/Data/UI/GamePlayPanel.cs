@@ -9,10 +9,12 @@ public class GamePlayPanel : MonoBehaviour
 {
     [SerializeField] private Image imgHpBar;
     [SerializeField] private Image imgExpBar;
+    [SerializeField] private TextMeshProUGUI txtLV;
     // Start is called before the first frame update
     private void OnEnable()
     {
-        GameController.Instance.onScoreChanged += OnScoreChanged;
+        GameController.Instance.onExpChanged += OnScoreChanged;
+        GameController.Instance.onLevelChanged += OnLevelChanged;
         SpawnManager.Instance.Player.onHpChanged += OnHpChanged;
     }
 
@@ -20,10 +22,13 @@ public class GamePlayPanel : MonoBehaviour
     {
         imgHpBar.fillAmount = curHp * 1f / Hp;
     }
-
+    private void OnLevelChanged(int level)
+    {
+        txtLV.text = "LV : " + level;
+    }
     private void OnDisable()
     {
-        GameController.Instance.onScoreChanged -= OnScoreChanged;
+        GameController.Instance.onExpChanged -= OnScoreChanged;
         SpawnManager.Instance.Player.onHpChanged -= OnHpChanged;
     }
     public void Pause()

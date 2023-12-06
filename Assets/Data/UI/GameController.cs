@@ -24,7 +24,9 @@ public class GameController : MonoBehaviour
             return instance;
         }
     }
-    public Action<int,int> onScoreChanged;
+    public Action<int, int> onExpChanged;
+    public Action<int> onLevelChanged;
+    public Action<int> onPrefabChanged;
     [SerializeField] private HomePanel homePanel;
     [SerializeField] private GamePlayPanel gamePlayPanel;
     [SerializeField] private PausePanel pausePanel;
@@ -32,7 +34,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TutorialPanel tutorialPanel;
 
     [SerializeField] protected WaveData[] wave;
-    [SerializeField] private int maxExp; 
+    [SerializeField] private int maxExp;
 
     private int currentWayIndex;
     private int level;
@@ -50,6 +52,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        level = 1;
         homePanel.gameObject.SetActive(false);
         gamePlayPanel.gameObject.SetActive(false);
         pausePanel.gameObject.SetActive(false);
@@ -88,11 +91,11 @@ public class GameController : MonoBehaviour
         currentWayIndex = 0;
         WaveData w = wave[currentWayIndex];
         Debug.Log("Wave : " + currentWayIndex);
-        SpawnManager.Instance.StartBattle(w,true);
+        SpawnManager.Instance.StartBattle(w, true);
         SetState(GameState.GamePlay);
         currentExp = 0;
-        if (onScoreChanged != null)
-            onScoreChanged(currentExp,maxExp);
+        if (onExpChanged != null)
+            onExpChanged(currentExp, maxExp);
     }
 
     public void Pause()
@@ -105,6 +108,7 @@ public class GameController : MonoBehaviour
         SetState(GameState.Home);
         SpawnManager.Instance.Clear();
     }
+
     public void Continue()
     {
         SetState(GameState.GamePlay);
@@ -113,7 +117,7 @@ public class GameController : MonoBehaviour
     public void Tutorial()
     {
         SetState(GameState.Tutorial);
-    }    
+    }
 
     public void GameOver(bool win)
     {
@@ -124,24 +128,23 @@ public class GameController : MonoBehaviour
     public void AddExp(int value)
     {
         currentExp += value;
-        if (onScoreChanged != null)
+        if (onExpChanged != null)
         {
             if (currentExp >= maxExp)
             {
                 currentExp = 0;
                 level++;
-                Debug.Log("Level : " + level);
+                onLevelChanged(level);
+                onPrefabChanged(level);
             }
-                onScoreChanged(currentExp, maxExp);
-            
+            onExpChanged(currentExp, maxExp);
         }
         if (SpawnManager.Instance.IsClear())
         {
             NextWay();
         }
-
-
     }
+
     public void NextWay()
     {
         currentWayIndex++;
