@@ -119,9 +119,8 @@ namespace EarthDenfender
         public void Setting()
         {
             int key = PlayerPrefs.GetInt("SettingKey");
-            Debug.Log("SettingKey = " + key);
             SetState(GameState.Setting);
-            if(gameState==GameState.Setting && key == 1)
+            if(gameState==GameState.Setting && key ==1)
             {
                 Time.timeScale = 1;
             }

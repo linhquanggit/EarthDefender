@@ -166,7 +166,6 @@ namespace EarthDenfender
             }
         }
         [SerializeField] private bool isActive;
-        [SerializeField] private int numEnemies;
         [SerializeField] private int totalGroups;
         [SerializeField] private float enemySpawnInterval;
 
@@ -189,6 +188,8 @@ namespace EarthDenfender
 
         private bool isSpawningEnemies;
         private int enemyIndex;
+        private int numEnemies;
+
         // Start is called before the first frame update
 
         private void OnEnable()

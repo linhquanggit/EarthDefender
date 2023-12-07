@@ -21,62 +21,68 @@ namespace EarthDenfender
         [SerializeField] private Scrollbar sfxBar;
         [SerializeField] private Toggle tgMusic;
         [SerializeField] private Toggle tgSFX;
-        public Action<float> OnMusicVolumeChanged;
-        public Action<float> OnSFXVolumeChanged;
+        public Action<float> onMusicVolumeChanged;
+        public Action<float> onSFXVolumeChanged;
 
         private float musicVolume;
         private float sfxVolume;
+        private float lastMusicVolume;
+        private float lastSFXVolume;
         private void Start()
         {
+            PlayerPrefs.SetInt("VolumeKey", 1);
             musicBar.value = 1f;
             sfxBar.value = 1f;
-
-            
-
         }
         public void OnMusicBarValueChanged()
         {
             musicVolume = musicBar.value;
-            OnMusicVolumeChanged(musicVolume);
-            
+            onMusicVolumeChanged(musicVolume);
+            lastMusicVolume = musicVolume;
         }
         public void OnSFXBarValueChanged()
         {
             sfxVolume = sfxBar.value;
-            OnSFXVolumeChanged(sfxVolume);
+            onSFXVolumeChanged(sfxVolume);
+            lastSFXVolume = sfxVolume;
         }
 
-        /*public void OnToggleMusicSelected()
+        public void OnToggleMusicChanged()
         {
-            if (tgMusic.isOn)
+            if (!tgMusic.isOn)
             {
-                musicBar.gameObject.SetActive(true);
-                OnMusicVolumeChanged(musicVolume);
-            }
-            else
-            {
+                PlayerPrefs.SetInt("VolumeKey", 0);
                 musicBar.gameObject.SetActive(false);
-                OnMusicVolumeChanged(0f);
-            }
-
-        }
-        public void OnToggleSFXSelected()
-        {
-            if (tgSFX.isOn)
-            {
-                sfxBar.gameObject.SetActive(true);
-                OnSFXVolumeChanged(sfxVolume);
-            }
+            }    
             else
             {
-                sfxBar.gameObject.SetActive(false);
-                OnSFXVolumeChanged(0f);
+                PlayerPrefs.SetInt("VolumeKey", 1);
+                musicBar.gameObject.SetActive(true);
             }
-        }*/
-
+            AudioManager.Instance.DisPlayMusic(lastMusicVolume);
+        }
+        public void OnToggleSFXChanged()
+        {
+            if (!tgSFX.isOn)
+            {
+                PlayerPrefs.SetInt("VolumeKey", 0);
+                sfxBar.gameObject.SetActive(false);
+            }    
+            else
+            {
+                PlayerPrefs.SetInt("VolumeKey", 1);
+                sfxBar.gameObject.SetActive(true);
+            }    
+            AudioManager.Instance.DisplaySFX(lastSFXVolume);
+        }
         public void BtnBackPressed()
         {
-            GameController.Instance.Pause();
+            int key = PlayerPrefs.GetInt("SettingKey");
+            if (key == 1)
+                GameController.Instance.Home();
+            else if (key == 2)
+                GameController.Instance.Pause();
         }
     }
+
 }

@@ -19,7 +19,7 @@ namespace EarthDenfender
         }
         [SerializeField] private AudioSource music;
         [SerializeField] private AudioSource sfx;
-       // [SerializeField] private AudioSource echo;
+        // [SerializeField] private AudioSource echo;
 
         [SerializeField] AudioClip homeMusicClip;
         [SerializeField] AudioClip battleMusicClip;
@@ -32,28 +32,37 @@ namespace EarthDenfender
 
         private void OnEnable()
         {
-            SettingPanel.Instance.OnMusicVolumeChanged += SetMusicVolume;
-            SettingPanel.Instance.OnSFXVolumeChanged += SetSFXVolume;
+            SettingPanel.Instance.onMusicVolumeChanged += OnMusicVolumeChanged;
+            SettingPanel.Instance.onSFXVolumeChanged += OnSFXVolumeChanged;
         }
         private void OnDisable()
         {
-            SettingPanel.Instance.OnMusicVolumeChanged -= SetMusicVolume;
-            SettingPanel.Instance.OnSFXVolumeChanged -= SetSFXVolume;
+            SettingPanel.Instance.onMusicVolumeChanged -= OnMusicVolumeChanged;
+            SettingPanel.Instance.onSFXVolumeChanged -= OnSFXVolumeChanged;
         }
-        private void SetMusicVolume(float volume)
+        private void OnMusicVolumeChanged(float volume)
         {
             music.volume = volume;
         }
 
-        private void SetSFXVolume(float volume)
+        public void DisPlayMusic(float volume)
+        {
+            if (PlayerPrefs.GetInt("VolumeKey") == 1)
+                OnMusicVolumeChanged(volume);
+            else if (PlayerPrefs.GetInt("VolumeKey") == 0)
+                OnMusicVolumeChanged(0f);
+        }    
+        public void DisplaySFX(float volume)
+        {
+            if (PlayerPrefs.GetInt("VolumeKey") == 1)
+                OnSFXVolumeChanged(volume);
+            else if (PlayerPrefs.GetInt("VolumeKey") == 0)
+                OnSFXVolumeChanged(0f);
+        }    
+        private void OnSFXVolumeChanged(float volume)
         {
             sfx.volume = volume;
         }
-        public void OnVolumeChanged(float volume)
-        {
-            music.volume = volume;
-            sfx.volume = volume;
-        }    
         private void Awake()
         {
             if (instance == null)

@@ -32,8 +32,9 @@ namespace EarthDenfender
         }
         public void BtnSetting_Pressed()
         {
-            GameController.Instance.Setting();
             PlayerPrefs.SetInt("SettingKey", 2);
+            GameController.Instance.Setting();
+            
         }
     }
 }

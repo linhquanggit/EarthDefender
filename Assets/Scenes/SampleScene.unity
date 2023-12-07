@@ -786,7 +786,7 @@ RectTransform:
   m_Father: {fileID: 778214282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: 10, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4749,7 +4749,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
-  numEnemies: 0
   totalGroups: 5
   enemySpawnInterval: 0.5
   enemiesPool:
@@ -4887,7 +4886,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2142978284}
         m_TargetAssemblyTypeName: EarthDenfender.SettingPanel, Assembly-CSharp
-        m_MethodName: OnToggleMusicSelected
+        m_MethodName: OnToggleMusicChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5006,7 +5005,7 @@ RectTransform:
   m_Father: {fileID: 566211727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
   m_AnchoredPosition: {x: -5.0000286, y: 0}
   m_SizeDelta: {x: 10.000057, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6545,7 +6544,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2142978284}
         m_TargetAssemblyTypeName: EarthDenfender.SettingPanel, Assembly-CSharp
-        m_MethodName: OnToggleSFXSelected
+        m_MethodName: OnToggleSFXChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7699,7 +7698,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2142978283
 RectTransform:
   m_ObjectHideFlags: 0
