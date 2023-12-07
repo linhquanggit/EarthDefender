@@ -2,40 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class HomePanel : MonoBehaviour
+namespace EarthDenfender
 {
-    private static HomePanel instance;
-    public static HomePanel Instance
+    public class HomePanel : MonoBehaviour
     {
-        get
+        private static HomePanel instance;
+        public static HomePanel Instance
         {
-            if (instance == null)
-                instance = FindObjectOfType<HomePanel>();
-            return instance;
+            get
+            {
+                if (instance == null)
+                    instance = FindObjectOfType<HomePanel>();
+                return instance;
+            }
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    public void BtnPlay_Pressed()
-    {
-        GameController.Instance.Play();
-    }
-
-    public void BtnTutorial_Pressed()
-    {
-        GameController.Instance.Tutorial();
-    }
-    public void BtnExit_Pressed()
-    {
-        /*if (UnityEditor.EditorApplication.isPlaying)
+        // Start is called before the first frame update
+        void Start()
         {
-            UnityEditor.EditorApplication.ExitPlaymode();
-        }*/
-        Application.Quit();
-    }
+        }
 
+        public void BtnPlay_Pressed()
+        {
+            GameController.Instance.Play();
+        }
+
+        public void BtnTutorial_Pressed()
+        {
+            GameController.Instance.Tutorial();
+        }
+        public void BtnExit_Pressed()
+        {
+            /*if (UnityEditor.EditorApplication.isPlaying)
+            {
+                UnityEditor.EditorApplication.ExitPlaymode();
+            }*/
+            Application.Quit();
+        }
+        public void BtnSettingPressed()
+        {
+            GameController.Instance.Setting();
+            PlayerPrefs.SetInt("SettingKey", 1);
+        }
+
+    }
 }

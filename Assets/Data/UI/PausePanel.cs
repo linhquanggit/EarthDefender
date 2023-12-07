@@ -1,33 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PausePanel : MonoBehaviour
+namespace EarthDenfender
 {
-    //private GameController gameController;
-    private PlayerController playerController;
-    // Start is called before the first frame update
-    void Start()
+    public class PausePanel : MonoBehaviour
     {
-        //gameController = FindObjectOfType<GameController>();
-    }
-    private void Update()
-    {
-        playerController = FindObjectOfType<PlayerController>();
-    }
-
-    public void BtnHome_Pressed()
-    {
-        if (playerController != null)
+        //private GameController gameController;
+        private PlayerController playerController;
+        // Start is called before the first frame update
+        void Start()
         {
-            playerController.DestroyPlayer();
+            //gameController = FindObjectOfType<GameController>();
         }
-        GameController.Instance.Home();
-    }
+        private void Update()
+        {
+            playerController = FindObjectOfType<PlayerController>();
+        }
 
-    public void BtnContinue_Pressed()
-    {
-        GameController.Instance.Continue();
-    }
+        public void BtnHome_Pressed()
+        {
+            if (playerController != null)
+            {
+                playerController.DestroyPlayer();
+            }
+            GameController.Instance.Home();
+        }
 
+        public void BtnContinue_Pressed()
+        {
+            GameController.Instance.Continue();
+        }
+        public void BtnSetting_Pressed()
+        {
+            GameController.Instance.Setting();
+            PlayerPrefs.SetInt("SettingKey", 2);
+        }
+    }
 }
