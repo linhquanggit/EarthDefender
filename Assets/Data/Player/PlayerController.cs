@@ -81,19 +81,21 @@ namespace EarthDenfender
                 }
             }
 
-            //transform.Translate(direction * Time.deltaTime * moveSpeed);
-            //tempCoolDown -= Time.deltaTime;
-
 
             // Di chuyển người chơi
             Vector3 newPosition = transform.position + new Vector3(direction.x * Time.deltaTime * moveSpeed, direction.y * Time.deltaTime * moveSpeed, 0);
 
+            // Lấy tọa độ mép trên cùng và dưới cùng của màn hình
+            Vector3 topRightCorner = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+            Vector3 bottomLeftCorner = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+
             // Giới hạn tọa độ x và y trong khoảng đã chỉ định
-            newPosition.x = Mathf.Clamp(newPosition.x, -2.81f, 2.81f);
-            newPosition.y = Mathf.Clamp(newPosition.y, -5f, 5f);
+            newPosition.x = Mathf.Clamp(newPosition.x, bottomLeftCorner.x, topRightCorner.x);
+            newPosition.y = Mathf.Clamp(newPosition.y, bottomLeftCorner.y, topRightCorner.y);
 
             // Áp dụng tọa độ mới
             transform.position = newPosition;
+
 
             tempCoolDown -= Time.deltaTime;
 

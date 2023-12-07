@@ -190,6 +190,10 @@ namespace EarthDenfender
         private int enemyIndex;
         private int numEnemies;
 
+        private float topLeftX;
+        private float topLeftY;
+        private float topRightX;
+
         // Start is called before the first frame update
 
         private void OnEnable()
@@ -202,10 +206,15 @@ namespace EarthDenfender
         }
         private void Start()
         {
+            Vector3 topLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
+             topLeftX = topLeftPoint.x;
+             topLeftY = topLeftPoint.y;
+            topRightX = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+            
         }
         private void Update()
         {
-            spawnPos = new Vector2(Random.Range(-2.81f, 2.81f), 5f);
+            spawnPos = new Vector2(Random.Range(topLeftX, topRightX), topLeftY);
         }
         private void Awake()
         {

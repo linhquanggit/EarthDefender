@@ -18,7 +18,11 @@ namespace EarthDenfender
             GameController.Instance.onLevelChanged += OnLevelChanged;
             SpawnManager.Instance.Player.onHpChanged += OnHpChanged;
         }
-
+        private void OnDisable()
+        {
+            GameController.Instance.onExpChanged -= OnScoreChanged;
+            SpawnManager.Instance.Player.onHpChanged -= OnHpChanged;
+        }
         private void OnHpChanged(int curHp, int Hp)
         {
             imgHpBar.fillAmount = curHp * 1f / Hp;
@@ -27,11 +31,7 @@ namespace EarthDenfender
         {
             txtLV.text = "LV : " + level;
         }
-        private void OnDisable()
-        {
-            GameController.Instance.onExpChanged -= OnScoreChanged;
-            SpawnManager.Instance.Player.onHpChanged -= OnHpChanged;
-        }
+        
         public void Pause()
         {
             GameController.Instance.Pause();

@@ -32,37 +32,44 @@ namespace EarthDenfender
 
         private void OnEnable()
         {
-            SettingPanel.Instance.onMusicVolumeChanged += OnMusicVolumeChanged;
-            SettingPanel.Instance.onSFXVolumeChanged += OnSFXVolumeChanged;
+            if (SettingPanel.Instance != null)
+            {
+                PlayerPrefs.SetInt("SFXVolumeKey", 1);
+                SettingPanel.Instance.onMusicVolumeChanged += OnMusicVolumeChanged;
+                SettingPanel.Instance.onSFXVolumeChanged += OnSFXVolumeChanged;
+            }
         }
         private void OnDisable()
         {
-            SettingPanel.Instance.onMusicVolumeChanged -= OnMusicVolumeChanged;
-            SettingPanel.Instance.onSFXVolumeChanged -= OnSFXVolumeChanged;
+            if(SettingPanel.Instance != null)
+            {
+                SettingPanel.Instance.onMusicVolumeChanged -= OnMusicVolumeChanged;
+                SettingPanel.Instance.onSFXVolumeChanged -= OnSFXVolumeChanged;
+            }    
         }
-        private void OnMusicVolumeChanged(float volume)
+        private void OnMusicVolumeChanged(float musicVolume)
+        { 
+            music.volume = musicVolume;
+        }
+        private void OnSFXVolumeChanged(float sfxVolume)
         {
-            music.volume = volume;
+            sfx.volume = sfxVolume;
         }
-
         public void DisPlayMusic(float volume)
         {
-            if (PlayerPrefs.GetInt("VolumeKey") == 1)
+            if (PlayerPrefs.GetInt("MusicVolumeKey") == 1)
                 OnMusicVolumeChanged(volume);
-            else if (PlayerPrefs.GetInt("VolumeKey") == 0)
+            else if (PlayerPrefs.GetInt("MusicVolumeKey") == 0)
                 OnMusicVolumeChanged(0f);
         }    
         public void DisplaySFX(float volume)
         {
-            if (PlayerPrefs.GetInt("VolumeKey") == 1)
+            if (PlayerPrefs.GetInt("SFXVolumeKey") == 1)
                 OnSFXVolumeChanged(volume);
-            else if (PlayerPrefs.GetInt("VolumeKey") == 0)
+            else if (PlayerPrefs.GetInt("SFXVolumeKey") == 0)
                 OnSFXVolumeChanged(0f);
         }    
-        private void OnSFXVolumeChanged(float volume)
-        {
-            sfx.volume = volume;
-        }
+        
         private void Awake()
         {
             if (instance == null)

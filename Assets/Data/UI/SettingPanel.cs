@@ -28,35 +28,39 @@ namespace EarthDenfender
         private float sfxVolume;
         private float lastMusicVolume;
         private float lastSFXVolume;
-        private void Start()
+        private void OnEnable()
         {
-            PlayerPrefs.SetInt("VolumeKey", 1);
             musicBar.value = 1f;
             sfxBar.value = 1f;
         }
         public void OnMusicBarValueChanged()
         {
             musicVolume = musicBar.value;
-            onMusicVolumeChanged(musicVolume);
+            if (onMusicVolumeChanged != null)
+                onMusicVolumeChanged(musicVolume);
             lastMusicVolume = musicVolume;
+            AudioManager.Instance.DisPlayMusic(musicVolume);
+
         }
         public void OnSFXBarValueChanged()
         {
             sfxVolume = sfxBar.value;
-            onSFXVolumeChanged(sfxVolume);
+            if (onSFXVolumeChanged != null)
+                onSFXVolumeChanged(sfxVolume);
             lastSFXVolume = sfxVolume;
+            AudioManager.Instance.DisPlayMusic(sfxVolume);
         }
 
         public void OnToggleMusicChanged()
         {
             if (!tgMusic.isOn)
             {
-                PlayerPrefs.SetInt("VolumeKey", 0);
+                PlayerPrefs.SetInt("MusicVolumeKey", 0);
                 musicBar.gameObject.SetActive(false);
-            }    
+            }
             else
             {
-                PlayerPrefs.SetInt("VolumeKey", 1);
+                PlayerPrefs.SetInt("MusicVolumeKey", 1);
                 musicBar.gameObject.SetActive(true);
             }
             AudioManager.Instance.DisPlayMusic(lastMusicVolume);
@@ -65,14 +69,14 @@ namespace EarthDenfender
         {
             if (!tgSFX.isOn)
             {
-                PlayerPrefs.SetInt("VolumeKey", 0);
+                PlayerPrefs.SetInt("SFXVolumeKey", 0);
                 sfxBar.gameObject.SetActive(false);
-            }    
+            }
             else
             {
-                PlayerPrefs.SetInt("VolumeKey", 1);
+                PlayerPrefs.SetInt("SFXVolumeKey", 1);
                 sfxBar.gameObject.SetActive(true);
-            }    
+            }
             AudioManager.Instance.DisplaySFX(lastSFXVolume);
         }
         public void BtnBackPressed()
