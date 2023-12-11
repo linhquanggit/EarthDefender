@@ -109,7 +109,6 @@ namespace EarthDenfender
         }
         public void GetHit(int enemyDamage)
         {
-            Debug.Log("Current Hp = " + playerCurrentHp);
             playerCurrentHp -= enemyDamage;
             if (onHpChanged != null)
                 onHpChanged(playerCurrentHp, playerHp);

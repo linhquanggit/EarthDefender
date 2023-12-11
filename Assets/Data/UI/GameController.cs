@@ -28,7 +28,6 @@ namespace EarthDenfender
         }
         public Action<int, int> onExpChanged;
         public Action<int> onLevelChanged;
-        public Action<int> onPrefabChanged;
         [SerializeField] private HomePanel homePanel;
         [SerializeField] private GamePlayPanel gamePlayPanel;
         [SerializeField] private PausePanel pausePanel;
@@ -42,6 +41,7 @@ namespace EarthDenfender
         private int currentWayIndex;
         private int level;
         private bool isWin;
+        private bool isLevelUp;
         private int currentExp;
         private GameState gameState;
 
@@ -56,6 +56,7 @@ namespace EarthDenfender
         void Start()
         {
             level = 1;
+            isLevelUp = false;
             homePanel.gameObject.SetActive(false);
             gamePlayPanel.gameObject.SetActive(false);
             pausePanel.gameObject.SetActive(false);
@@ -97,7 +98,6 @@ namespace EarthDenfender
         {
             currentWayIndex = 0;
             WaveData w = wave[currentWayIndex];
-            Debug.Log("Wave : " + currentWayIndex);
             SpawnManager.Instance.StartBattle(w, true);
             SetState(GameState.GamePlay);
             currentExp = 0;
@@ -154,17 +154,26 @@ namespace EarthDenfender
                 {
                     currentExp = 0;
                     level++;
+                    isLevelUp = true;
                     onLevelChanged(level);
-                    onPrefabChanged(level);
                 }
                 onExpChanged(currentExp, maxExp);
+            }
+            if(isLevelUp)
+            {
+                GetLevel();
             }
             if (SpawnManager.Instance.IsClear())
             {
                 NextWay();
             }
         }
-
+        
+        public int GetLevel()
+        {
+            isLevelUp = false;
+            return level;
+        }
         public void NextWay()
         {
             currentWayIndex++;
@@ -176,7 +185,6 @@ namespace EarthDenfender
             else
             {
                 WaveData w = wave[currentWayIndex];
-                Debug.Log("Wave : " + currentWayIndex);
                 SpawnManager.Instance.StartBattle(w, false);
             }
         }

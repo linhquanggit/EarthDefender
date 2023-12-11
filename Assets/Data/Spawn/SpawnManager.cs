@@ -56,28 +56,52 @@ namespace EarthDenfender
     [System.Serializable]
     public class ProjectilePool
     {
-        public ProjectileController prefab;
+        public ProjectileController[] prefab;
         public List<ProjectileController> inactiveObjs;
         public List<ProjectileController> activeObjs;
-
-        public ProjectileController Spawn(Vector3 position, Transform parent)
+        public ProjectileController Spawn(Vector3 position, Transform parent,bool isEnemies)
         {
-            if (inactiveObjs.Count == 0)
+            if(!isEnemies)
             {
-                ProjectileController newObj = GameObject.Instantiate(prefab, parent);
-                newObj.transform.position = position;
-                activeObjs.Add(newObj);
-                return newObj;
+                int index = GameController.Instance.GetLevel();
+                Debug.Log("Level " + index);
+                if (inactiveObjs.Count == 0)
+                {
+                    ProjectileController newObj = GameObject.Instantiate(prefab[index], parent);
+                    newObj.transform.position = position;
+                    activeObjs.Add(newObj);
+                    return newObj;
+                }
+                else
+                {
+                    ProjectileController oldObj = inactiveObjs[0];
+                    oldObj.gameObject.SetActive(true);
+                    oldObj.transform.SetParent(parent);
+                    oldObj.transform.position = position;
+                    activeObjs.Add(oldObj);
+                    inactiveObjs.RemoveAt(0);
+                    return oldObj;
+                }
             }
             else
             {
-                ProjectileController oldObj = inactiveObjs[0];
-                oldObj.gameObject.SetActive(true);
-                oldObj.transform.SetParent(parent);
-                oldObj.transform.position = position;
-                activeObjs.Add(oldObj);
-                inactiveObjs.RemoveAt(0);
-                return oldObj;
+                if (inactiveObjs.Count == 0)
+                {
+                    ProjectileController newObj = GameObject.Instantiate(prefab[0], parent);
+                    newObj.transform.position = position;
+                    activeObjs.Add(newObj);
+                    return newObj;
+                }
+                else
+                {
+                    ProjectileController oldObj = inactiveObjs[0];
+                    oldObj.gameObject.SetActive(true);
+                    oldObj.transform.SetParent(parent);
+                    oldObj.transform.position = position;
+                    activeObjs.Add(oldObj);
+                    inactiveObjs.RemoveAt(0);
+                    return oldObj;
+                }
             }
 
         }
@@ -194,16 +218,7 @@ namespace EarthDenfender
         private float topLeftY;
         private float topRightX;
 
-        // Start is called before the first frame update
-
-        private void OnEnable()
-        {
-            GameController.Instance.onPrefabChanged += OnPrefabChanged;
-        }
-        private void OnPrefabChanged(int index)
-        {
-            enemyIndex = index;
-        }
+        
         private void Start()
         {
             Vector3 topLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
@@ -268,7 +283,7 @@ namespace EarthDenfender
 
         public ProjectileController SpawnEnemyProjectile(Vector3 position)
         {
-            ProjectileController obj = enemyProjPool.Spawn(position, transform);
+            ProjectileController obj = enemyProjPool.Spawn(position, transform,true);
             obj.SetFromPlayer(false);
             return obj;
         }
@@ -282,7 +297,7 @@ namespace EarthDenfender
         {
 
             Debug.Log("Proj  " + enemyIndex);
-            ProjectileController obj = playerProjPool.Spawn(position, transform);
+            ProjectileController obj = playerProjPool.Spawn(position, transform,false);
             obj.SetFromPlayer(true);
             return obj;
         }

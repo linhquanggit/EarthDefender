@@ -49,7 +49,7 @@ namespace EarthDenfender
         protected virtual void Fire()
         {
             // EnemyProjectile projectileCtrl = Instantiate(projectile, firePoint.position, Quaternion.identity, null);
-            ProjectileController projectileCtrl = SpawnManager.Instance.SpawnEnemyProjectile(firePoint.position);
+            ProjectileController projectileCtrl = SpawnManager.Instance.SpawnEnemyProjectile(firePoint.position); ;
             projectileCtrl.Fire(speedMultiplier);
             AudioManager.Instance.PlayBombSFXClip();
         }

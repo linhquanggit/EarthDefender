@@ -28,10 +28,11 @@ namespace EarthDenfender
         private float sfxVolume;
         private float lastMusicVolume;
         private float lastSFXVolume;
-        private void OnEnable()
+        private void Start()
         {
-            musicBar.value = 1f;
-            sfxBar.value = 1f;
+            sfxBar.value = 1;
+            musicBar.value = 1;
+
         }
         public void OnMusicBarValueChanged()
         {
@@ -39,6 +40,7 @@ namespace EarthDenfender
             if (onMusicVolumeChanged != null)
                 onMusicVolumeChanged(musicVolume);
             lastMusicVolume = musicVolume;
+            PlayerPrefs.SetFloat("LastMusicVolume", lastMusicVolume);
             AudioManager.Instance.DisPlayMusic(musicVolume);
 
         }
@@ -48,7 +50,8 @@ namespace EarthDenfender
             if (onSFXVolumeChanged != null)
                 onSFXVolumeChanged(sfxVolume);
             lastSFXVolume = sfxVolume;
-            AudioManager.Instance.DisPlayMusic(sfxVolume);
+            AudioManager.Instance.DisplaySFX(sfxVolume);
+            PlayerPrefs.SetFloat("LastSFXVolume", lastSFXVolume);
         }
 
         public void OnToggleMusicChanged()

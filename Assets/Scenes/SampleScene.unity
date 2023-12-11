@@ -786,7 +786,7 @@ RectTransform:
   m_Father: {fileID: 778214282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.2, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: 10, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4755,11 +4755,17 @@ MonoBehaviour:
     inactiveObjs: []
     activeObjs: []
   playerProjPool:
-    prefab: {fileID: 5817697466805166255, guid: 226a2b33d8eda1c43bfdf02fe7e5ba0c, type: 3}
+    prefab:
+    - {fileID: 2245468465474742793, guid: e101b22963fe6f74fbb6c8d55f89c329, type: 3}
+    - {fileID: 4295041402830592715, guid: 4649daffc5648cb42943fe88c91268fe, type: 3}
+    - {fileID: 5817697466805166255, guid: 226a2b33d8eda1c43bfdf02fe7e5ba0c, type: 3}
+    - {fileID: 3177404539353048630, guid: 029583a1090a7474fa54d31fa5b3a435, type: 3}
+    - {fileID: 4155890205884935213, guid: ced346feb6445ea45b7da299c32750d2, type: 3}
     inactiveObjs: []
     activeObjs: []
   enemyProjPool:
-    prefab: {fileID: -84176054310138132, guid: ae578efd6af054f418aefc7443193fbe, type: 3}
+    prefab:
+    - {fileID: -84176054310138132, guid: ae578efd6af054f418aefc7443193fbe, type: 3}
     inactiveObjs: []
     activeObjs: []
   hitFXPool:
@@ -5004,7 +5010,7 @@ RectTransform:
   m_Father: {fileID: 566211727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.2, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -5.0000305, y: 0}
   m_SizeDelta: {x: 10.000057, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7569,7 +7575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2142978283
 RectTransform:
   m_ObjectHideFlags: 0
