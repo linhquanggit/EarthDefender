@@ -7,14 +7,15 @@ namespace EarthDenfender
     [System.Serializable]
     public class EnemiesPool
     {
-        public EnemyController prefabs;
+        public EnemyController[] prefabs;
         public List<EnemyController> inactiveObjs;
         public List<EnemyController> activeObjs;
         public EnemyController Spawn(Vector3 position, Transform parent)
         {
+            int index = Random.Range(0, prefabs.Length - 1);
             if (inactiveObjs.Count == 0)
             {
-                EnemyController newObj = GameObject.Instantiate(prefabs, parent);
+                EnemyController newObj = GameObject.Instantiate(prefabs[index], parent);
                 newObj.transform.position = position;
                 activeObjs.Add(newObj);
                 return newObj;
@@ -57,6 +58,7 @@ namespace EarthDenfender
     public class ProjectilePool
     {
         public ProjectileController[] prefab;
+        private int curPrefab = 0;
         public List<ProjectileController> inactiveObjs;
         public List<ProjectileController> activeObjs;
         public ProjectileController Spawn(Vector3 position, Transform parent,bool isEnemies)
@@ -64,10 +66,14 @@ namespace EarthDenfender
             if(!isEnemies)
             {
                 int index = GameController.Instance.GetLevel();
-                Debug.Log("Level " + index);
+                if(index >= curPrefab && index<= prefab.Length-1)
+                {
+                    curPrefab = index;
+                    inactiveObjs.Clear();
+                }
                 if (inactiveObjs.Count == 0)
                 {
-                    ProjectileController newObj = GameObject.Instantiate(prefab[index], parent);
+                    ProjectileController newObj = GameObject.Instantiate(prefab[curPrefab], parent);
                     newObj.transform.position = position;
                     activeObjs.Add(newObj);
                     return newObj;
@@ -252,7 +258,7 @@ namespace EarthDenfender
         private IEnumerator IESpawnGroups(int groups)
         {
             isSpawningEnemies = true;
-            for (int i = 1; i < groups; i++)
+            for (int i = 0; i < groups; i++)
             {
                 int enem = numEnemies;
                 yield return StartCoroutine(IESpawnEnemies(enem, spawnPos));
@@ -260,6 +266,13 @@ namespace EarthDenfender
                     yield return new WaitForSeconds(3f / currentWay.speedMultiplier);
             }
             isSpawningEnemies = false;
+
+        }
+        public bool IsClear()
+        {
+            if (isSpawningEnemies || enemiesPool.activeObjs.Count > 0)
+                return false;
+            return true;
         }
         private IEnumerator IESpawnEnemies(int totalEnemies, Vector2 position)
         {
@@ -295,8 +308,6 @@ namespace EarthDenfender
 
         public ProjectileController SpawnPlayerProjectile(Vector3 position)
         {
-
-            Debug.Log("Proj  " + enemyIndex);
             ProjectileController obj = playerProjPool.Spawn(position, transform,false);
             obj.SetFromPlayer(true);
             return obj;
@@ -363,12 +374,7 @@ namespace EarthDenfender
             destroyPlayerFXPool.Release(obj);
         }
 
-        public bool IsClear()
-        {
-            if (isSpawningEnemies || enemiesPool.activeObjs.Count > 0)
-                return false;
-            return true;
-        }
+        
 
 
         public void Clear()

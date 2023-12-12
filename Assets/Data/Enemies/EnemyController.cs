@@ -35,8 +35,8 @@ namespace EarthDenfender
             tempCoolDown -= Time.deltaTime;
             if (transform.position.y <= -5f)
                 SpawnManager.Instance.ReleaseEnemy(this);
-            if (SpawnManager.Instance.IsClear())
-                GameController.Instance.NextWay();
+            GameController.Instance.CheckWave();
+            
         }
         public void Init(float speedMul, int maxHp)
         {
@@ -75,6 +75,7 @@ namespace EarthDenfender
                 collision.gameObject.TryGetComponent(out player);
                 player.GetHit(collisionDamage);
                 SpawnManager.Instance.ReleaseEnemy(this);
+                GameController.Instance.CheckWave();
                 Vector3 hitPos = collision.ClosestPoint(transform.position);
                 SpawnManager.Instance.SpawnPlayerGetHitFX(hitPos);
             }

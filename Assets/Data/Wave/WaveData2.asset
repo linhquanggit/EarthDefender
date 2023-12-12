@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WaveData2
   m_EditorClassIdentifier: 
   totalGroups: 3
-  totalEnemies: 15
+  totalEnemies: 14
   speedMultiplier: 0.7
   enemyMaxHp: 3

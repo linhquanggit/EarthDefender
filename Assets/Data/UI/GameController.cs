@@ -65,8 +65,6 @@ namespace EarthDenfender
             settingPanel.gameObject.SetActive(false);
             SetState(GameState.Home);
         }
-
-
         private void SetState(GameState state)
         {
             gameState = state;
@@ -77,9 +75,7 @@ namespace EarthDenfender
             tutorialPanel.gameObject.SetActive(gameState == GameState.Tutorial);
             settingPanel.gameObject.SetActive(gameState == GameState.Setting);
             if (gameState == GameState.Pause)
-            {
                 Time.timeScale = 0;
-            }
             else
                 Time.timeScale = 1;
             if (gameState == GameState.Home)
@@ -159,34 +155,32 @@ namespace EarthDenfender
                 }
                 onExpChanged(currentExp, maxExp);
             }
-            if(isLevelUp)
+            CheckWave();
+            if (isLevelUp)
             {
                 GetLevel();
             }
-            if (SpawnManager.Instance.IsClear())
+        }
+        public void CheckWave()
+        {
+            if (SpawnManager.Instance.IsClear() == true)
             {
-                NextWay();
+                currentWayIndex++;
+                if (currentWayIndex >= wave.Length - 1)
+                {
+                    GameOver(true);
+                }
+                else
+                {
+                    WaveData w = wave[currentWayIndex];
+                    SpawnManager.Instance.StartBattle(w, false);
+                }
             }
         }
-        
         public int GetLevel()
         {
             isLevelUp = false;
             return level;
-        }
-        public void NextWay()
-        {
-            currentWayIndex++;
-            if (currentWayIndex >= wave.Length)
-            {
-                GameOver(true);
-                Time.timeScale = 0;
-            }
-            else
-            {
-                WaveData w = wave[currentWayIndex];
-                SpawnManager.Instance.StartBattle(w, false);
-            }
         }
     }
 }

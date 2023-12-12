@@ -31,7 +31,6 @@ namespace EarthDenfender
         {
             txtLV.text = "LV : " + level;
         }
-        
         public void Pause()
         {
             GameController.Instance.Pause();
