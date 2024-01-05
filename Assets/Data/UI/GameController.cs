@@ -151,6 +151,12 @@ namespace EarthDenfender
                     currentExp = 0;
                     level++;
                     isLevelUp = true;
+                    Vector3 curPos = PlayerController.Instance.PlayerPos();
+                    curPos.y += 1f;
+                    Vector3 textPos = new Vector3(curPos.x, curPos.y, curPos.z);
+                    FloatingTextController dameText = SpawnManager.Instance.SpawnFloatingText(textPos);
+                    dameText.transform.GetChild(0).GetComponent<TextMesh>().text = "level Up";
+                    dameText.transform.GetChild(0).GetComponent<TextMesh>().color = Color.yellow;
                     onLevelChanged(level);
                 }
                 onExpChanged(currentExp, maxExp);

@@ -122,8 +122,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  damage: 2
   direction: {x: 1, y: 0}
+  minDamage: 0
+  maxDamage: 5
 --- !u!70 &8882499911785713471
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

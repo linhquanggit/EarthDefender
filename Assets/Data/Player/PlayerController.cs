@@ -7,6 +7,16 @@ namespace EarthDenfender
 {
     public class PlayerController : MonoBehaviour
     {
+        private static PlayerController instance;
+        public static PlayerController Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = FindObjectOfType<PlayerController>();
+                return instance;
+            }
+        }
         public Action<int, int> onHpChanged;
         [SerializeField] private float moveSpeed;
         [SerializeField] private int playerHp;
@@ -110,6 +120,11 @@ namespace EarthDenfender
         public void GetHit(int enemyDamage)
         {
             playerCurrentHp -= enemyDamage;
+            Vector3 curPos = transform.position;
+            curPos.y += 1f;
+            Vector3 textPos = new Vector3(curPos.x, curPos.y, curPos.z);
+            FloatingTextController dameText = SpawnManager.Instance.SpawnFloatingText(textPos);
+            dameText.transform.GetChild(0).GetComponent<TextMesh>().text = enemyDamage.ToString();
             if (onHpChanged != null)
                 onHpChanged(playerCurrentHp, playerHp);
             if (playerCurrentHp <= 0)
@@ -173,7 +188,10 @@ namespace EarthDenfender
             }
         }
 
-
+        public Vector3 PlayerPos()
+        {
+            return transform.position;
+        }    
 
     }
 }

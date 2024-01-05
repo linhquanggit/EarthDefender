@@ -6,10 +6,12 @@ namespace EarthDenfender
     public class ProjectileController : MonoBehaviour
     {
         [SerializeField] protected float moveSpeed;
-        [SerializeField] protected int damage;
         [SerializeField] protected Vector2 direction;
-
+        [Range(1, 100)] public int minDamage;
+        [Range(1, 100)] public int maxDamage;
+        private int damage;
         private bool fromPlayer;
+        private bool isMaxDame;
         private float lifeTime;
         private float currentMoveSpeed;
 
@@ -19,6 +21,7 @@ namespace EarthDenfender
             if (lifeTime <= 0)
                 Release();
             lifeTime -= Time.deltaTime;
+            damage = Random.Range(minDamage, maxDamage);
         }
         public void Fire(float speedMultiplier)
         {
@@ -50,8 +53,16 @@ namespace EarthDenfender
                 SpawnManager.Instance.SpawnHitFX(hitPos);
                 EnemyController enemy;
                 collision.gameObject.TryGetComponent(out enemy);
-                enemy.GetHit(damage);
 
+                if (damage < maxDamage - 1)
+                {
+                    isMaxDame = false;
+                }
+                else
+                {
+                    isMaxDame = true;
+                }
+                enemy.GetHit(damage, isMaxDame);
             }
 
             if (collision.gameObject.CompareTag("Player"))

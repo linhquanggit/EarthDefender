@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 namespace EarthDenfender
 {
@@ -54,9 +55,24 @@ namespace EarthDenfender
             AudioManager.Instance.PlayBombSFXClip();
         }
 
-        public void GetHit(int playerDamage)
+        public void GetHit(int playerDamage, bool isMaxDame)
         {
             enemyCurrentHp -= playerDamage;
+            Vector3 curPos = transform.position;
+            curPos.y += 0.5f;
+            Vector3 textPos = new Vector3(curPos.x, curPos.y, curPos.z);
+            FloatingTextController dameText = SpawnManager.Instance.SpawnFloatingText(textPos);
+            Debug.Log(isMaxDame);
+            if (isMaxDame)
+            {
+                dameText.transform.GetChild(0).GetComponent<TextMesh>().color = Color.red;
+            }
+            else
+            {
+                dameText.transform.GetChild(0).GetComponent<TextMesh>().color = Color.green;
+            }
+            dameText.transform.GetChild(0).GetComponent<TextMesh>().text = playerDamage.ToString();
+            
             if (enemyCurrentHp <= 0)
             {
                 SpawnManager.Instance.SpawnDestroyEnemyFX(transform.position);

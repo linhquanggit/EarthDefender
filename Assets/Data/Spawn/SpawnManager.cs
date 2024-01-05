@@ -5,6 +5,54 @@ using UnityEngine;
 namespace EarthDenfender
 {
     [System.Serializable]
+    public class PopUpPool
+    {
+        public FloatingTextController prefab;
+        public List<FloatingTextController> inactiveObjs;
+        public List<FloatingTextController> activeObjs;
+        public FloatingTextController Spawn(Vector3 position, Transform parent)
+        {;
+            if (inactiveObjs.Count == 0)
+            {
+                FloatingTextController newObj = GameObject.Instantiate(prefab, parent);
+                newObj.transform.position = position;
+                activeObjs.Add(newObj);
+                return newObj;
+            }
+            else
+            {
+                FloatingTextController oldObj = inactiveObjs[0];
+                oldObj.gameObject.SetActive(true);
+                oldObj.transform.SetParent(parent);
+                oldObj.transform.position = position;
+                activeObjs.Add(oldObj);
+                inactiveObjs.RemoveAt(0);
+                return oldObj;
+            }
+        }
+        public void Release(FloatingTextController obj)
+        {
+            if (activeObjs.Contains(obj))
+            {
+                activeObjs.Remove(obj);
+                inactiveObjs.Add(obj);
+                obj.gameObject.SetActive(false);
+            }
+        }
+        public void Clear()
+        {
+            while (activeObjs.Count > 0)
+            {
+                FloatingTextController obj = activeObjs[0];
+                obj.gameObject.SetActive(false);
+                activeObjs.RemoveAt(0);
+                inactiveObjs.Add(obj);
+
+            }
+        }
+
+    }
+    [System.Serializable]
     public class EnemiesPool
     {
         public EnemyController[] prefabs;
@@ -65,7 +113,7 @@ namespace EarthDenfender
         {
             if(!isEnemies)
             {
-                int index = GameController.Instance.GetLevel();
+                int index = GameController.Instance.GetLevel()-1;
                 if(index >= curPrefab && index<= prefab.Length-1)
                 {
                     curPrefab = index;
@@ -200,6 +248,7 @@ namespace EarthDenfender
         [SerializeField] private float enemySpawnInterval;
 
         [SerializeField] private EnemiesPool enemiesPool;
+        [SerializeField] private PopUpPool popUpPool;
         [SerializeField] private ProjectilePool playerProjPool;
         [SerializeField] private ProjectilePool enemyProjPool;
         [SerializeField] private ParticalFXPool hitFXPool;
@@ -374,8 +423,16 @@ namespace EarthDenfender
             destroyPlayerFXPool.Release(obj);
         }
 
-        
 
+        public FloatingTextController SpawnFloatingText(Vector3 position)
+        {
+            FloatingTextController text = popUpPool.Spawn(position, transform);
+            return text;
+        }
+        public void ReleaseFloatingText(FloatingTextController obj)
+        {
+                popUpPool.Release(obj);
+        }
 
         public void Clear()
         {
