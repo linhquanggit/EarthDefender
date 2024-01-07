@@ -32,10 +32,10 @@ namespace EarthDenfender
         }
         public void BtnExit_Pressed()
         {
-            if (UnityEditor.EditorApplication.isPlaying)
+            /*if (UnityEditor.EditorApplication.isPlaying)
             {
                 UnityEditor.EditorApplication.ExitPlaymode();
-            }
+            }*/
             Application.Quit();
         }
         public void BtnSettingPressed()

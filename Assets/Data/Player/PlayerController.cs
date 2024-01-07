@@ -95,13 +95,9 @@ namespace EarthDenfender
             // Di chuyển người chơi
             Vector3 newPosition = transform.position + new Vector3(direction.x * Time.deltaTime * moveSpeed, direction.y * Time.deltaTime * moveSpeed, 0);
 
-            // Lấy tọa độ mép trên cùng và dưới cùng của màn hình
-            Vector3 topRightCorner = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-            Vector3 bottomLeftCorner = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-
             // Giới hạn tọa độ x và y trong khoảng đã chỉ định
-            newPosition.x = Mathf.Clamp(newPosition.x, bottomLeftCorner.x, topRightCorner.x);
-            newPosition.y = Mathf.Clamp(newPosition.y, bottomLeftCorner.y, topRightCorner.y);
+            newPosition.x = Mathf.Clamp(newPosition.x, CameraBoundary.Instance.BottomLeftCorner().x, CameraBoundary.Instance.TopRightCorner().x);
+            newPosition.y = Mathf.Clamp(newPosition.y, CameraBoundary.Instance.BottomLeftCorner().y, CameraBoundary.Instance.TopRightCorner().y);
 
             // Áp dụng tọa độ mới
             transform.position = newPosition;

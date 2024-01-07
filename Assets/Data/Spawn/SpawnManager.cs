@@ -257,10 +257,13 @@ namespace EarthDenfender
         [SerializeField] private ParticalFXPool destroyEnemyFXPool;
         [SerializeField] private ParticalFXPool destroyPlayerFXPool;
         [SerializeField] private PlayerController playerControllerPrefab;
-
+        [SerializeField] private BossAI bossAIPrefab;
 
         public PlayerController Player => player;
         private PlayerController player;
+
+        public BossAI Boss => boss;
+        private BossAI boss;
         private WaveData currentWay;
         private Vector2 spawnPos;
 
@@ -276,10 +279,14 @@ namespace EarthDenfender
         
         private void Start()
         {
-            Vector3 topLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
+            /*Vector3 topLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
              topLeftX = topLeftPoint.x;
              topLeftY = topLeftPoint.y;
-            topRightX = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+            topRightX = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;*/
+
+            topLeftX = CameraBoundary.Instance.TopLeftCorner().x;
+            topLeftY = CameraBoundary.Instance.TopLeftCorner().y;
+            topRightX = CameraBoundary.Instance.TopRightCorner().x;
             
         }
         private void Update()
@@ -299,11 +306,17 @@ namespace EarthDenfender
             numEnemies = currentWay.totalEnemies;
             totalGroups = currentWay.totalGroups;
             if (player == null)
+            {
                 player = Instantiate(playerControllerPrefab);
+            }
+            if (boss == null)
+            {
+                boss = Instantiate(bossAIPrefab,new Vector3(Random.Range(topLeftX,topRightX),topLeftY,0f),Quaternion.identity);
+            }
             if (resetPos)
                 player.transform.position = Vector3.zero;
             StartCoroutine(IESpawnGroups(totalGroups));
-        }
+        } 
         private IEnumerator IESpawnGroups(int groups)
         {
             isSpawningEnemies = true;

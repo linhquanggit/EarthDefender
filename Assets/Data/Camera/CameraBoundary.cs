@@ -1,20 +1,51 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EarthDenfender
 {
     public class CameraBoundary : MonoBehaviour
     {
-        private void OnTriggerStay2D(Collider2D other)
+
+        private static CameraBoundary instance;
+        public static CameraBoundary Instance
         {
-            if (other.CompareTag("Player")) // Kiểm tra xem GameObject có ra khỏi màn hình không
+            get
             {
-                Debug.Log("Player Kiaaaa!!!");
-                Vector3 position = transform.position;
-                position.x = Mathf.Clamp(position.x, -4.8f, 4.8f); // Giới hạn vị trí theo chiều ngang
-                position.y = Mathf.Clamp(position.y, -2.5f, 2.5f); // Giới hạn vị trí theo chiều dọc
-                transform.position = position;
+                if (instance == null)
+                    instance = FindObjectOfType<CameraBoundary>();
+                return instance;
             }
         }
+
+        private Vector3 topRightCorner;
+        private Vector3 topLeftCorner;
+        private Vector3 bottomLeftCorner;
+        private Vector3 bottomRightCorner;
+        private void Start()
+        {
+            topRightCorner = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+            topLeftCorner = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
+            bottomLeftCorner = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+            bottomRightCorner = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0));
+
+        }
+
+        public Vector3 TopRightCorner()
+        {
+            return topRightCorner;
+        }
+        public Vector3 BottomLeftCorner()
+        {
+            return bottomLeftCorner;
+        }
+        public Vector3 BottomRightCorner()
+        {
+            return bottomRightCorner;
+        }
+        public Vector3 TopLeftCorner()
+        {
+            return topLeftCorner;
+        }
     }
-}*/
+
+}

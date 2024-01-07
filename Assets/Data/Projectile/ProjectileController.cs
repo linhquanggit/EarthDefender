@@ -73,7 +73,7 @@ namespace EarthDenfender
                     SpawnManager.Instance.ReleaseEnemyProjectile(this);
                 Vector3 hitPos = collision.ClosestPoint(transform.position);
                 SpawnManager.Instance.SpawnPlayerGetHitFX(hitPos);
-                PlayerController player;
+                PlayerController player=FindObjectOfType<PlayerController>();
                 collision.gameObject.TryGetComponent(out player);
                 player.GetHit(damage);
             }

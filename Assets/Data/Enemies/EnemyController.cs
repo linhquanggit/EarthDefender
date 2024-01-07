@@ -10,15 +10,15 @@ namespace EarthDenfender
         [SerializeField] private Vector2 moveDir;
         [SerializeField] private float moveSpeed;
         [SerializeField] private bool isActive;
-        [SerializeField] protected Transform firePoint;
-        [SerializeField] protected float minFireCoolDown;
-        [SerializeField] protected float maxFireCoolDown;
-        [SerializeField] protected int collisionDamage;
-        [SerializeField] protected int enemyExp;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private float minFireCoolDown;
+        [SerializeField] private float maxFireCoolDown;
+        [SerializeField] private int collisionDamage;
+        [SerializeField] private int enemyExp;
         // [SerializeField] protected int enemyHp;
 
-        protected int enemyCurrentHp;
-        protected float tempCoolDown;
+        private int enemyCurrentHp;
+        private float tempCoolDown;
 
         private float currentMoveSpeed;
         private float speedMultiplier;
@@ -37,7 +37,7 @@ namespace EarthDenfender
             if (transform.position.y <= -5f)
                 SpawnManager.Instance.ReleaseEnemy(this);
             GameController.Instance.CheckWave();
-            
+
         }
         public void Init(float speedMul, int maxHp)
         {
@@ -62,7 +62,7 @@ namespace EarthDenfender
             curPos.y += 0.5f;
             Vector3 textPos = new Vector3(curPos.x, curPos.y, curPos.z);
             FloatingTextController dameText = SpawnManager.Instance.SpawnFloatingText(textPos);
-            Debug.Log(isMaxDame);
+            Debug.Log("Max Dame ? =" + isMaxDame);
             if (isMaxDame)
             {
                 dameText.transform.GetChild(0).GetComponent<TextMesh>().color = Color.red;
@@ -72,7 +72,7 @@ namespace EarthDenfender
                 dameText.transform.GetChild(0).GetComponent<TextMesh>().color = Color.green;
             }
             dameText.transform.GetChild(0).GetComponent<TextMesh>().text = playerDamage.ToString();
-            
+
             if (enemyCurrentHp <= 0)
             {
                 SpawnManager.Instance.SpawnDestroyEnemyFX(transform.position);
@@ -87,7 +87,7 @@ namespace EarthDenfender
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                PlayerController player;
+                PlayerController player = FindObjectOfType<PlayerController>();
                 collision.gameObject.TryGetComponent(out player);
                 player.GetHit(collisionDamage);
                 SpawnManager.Instance.ReleaseEnemy(this);
